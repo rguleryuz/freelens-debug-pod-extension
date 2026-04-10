@@ -1,0 +1,26 @@
+{
+  "name": "freelens-pod-debug-extension",
+  "version": "0.1.0",
+  "description": "FreeLens extension that adds a kubectl debug action for pods",
+  "author": "orion",
+  "license": "MIT",
+  "engines": {
+    "lens": ">=6.0.0"
+  },
+  "main": "dist/main.js",
+  "renderer": "dist/renderer.js",
+  "scripts": {
+    "build": "npm run clean && webpack",
+    "clean": "rm -rf dist",
+    "dev": "webpack --watch"
+  },
+  "devDependencies": {
+    "@k8slens/extensions": "^6.0.0",
+    "@types/node": "^20.14.10",
+    "@types/react": "^18.3.3",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.5.3",
+    "webpack": "^5.92.1",
+    "webpack-cli": "^5.1.4"
+  }
+}
