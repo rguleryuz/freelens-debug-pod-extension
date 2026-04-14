@@ -10,10 +10,13 @@
 
 !custom.d.ts
 !env.d.ts
+.mcp.json
 
 /node_modules/
 /out/
-
+/freelens-example-extension/
+/.omc/
+/.fastembed_cache/
 *.DS_Store
 /.idea
 /.vscode
