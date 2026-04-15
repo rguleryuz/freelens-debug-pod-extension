@@ -35,7 +35,9 @@ function buildDebugCommand(pod: Pod, containerName: string, settings: DebugSetti
   const shellProfile = settings.shellProfile?.trim() || DEFAULT_SHELL_PROFILE;
   const extraArgs = tokenizeArgs(settings.extraArgs || "");
 
-  const parts = [kubectlPath, "debug", "-it", pod.getName(), "-n", pod.getNs(), "--image", debugImage];
+  const profile = settings.profile?.trim() || "general";
+
+  const parts = [kubectlPath, "debug", "-it", pod.getName(), "-n", pod.getNs(), "--image", debugImage, "--profile", profile];
 
   if (extraArgs.length > 0) {
     parts.push(...extraArgs);
