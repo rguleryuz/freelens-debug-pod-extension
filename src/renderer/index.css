@@ -1,0 +1,16 @@
+/* Freelens v2 no longer ships the flexbox.scss utility classes. */
+.pod-debug-settings {
+  display: flex;
+  flex-direction: column;
+  gap: var(--margin, 8px);
+}
+
+.pod-debug-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.pod-debug-container-item {
+  display: flex;
+  align-items: center;
+}

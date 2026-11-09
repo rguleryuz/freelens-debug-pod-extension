@@ -1,5 +1,5 @@
 import { Common } from "@freelensapp/extensions";
-import { makeObservable, observable } from "mobx";
+import { observable } from "mobx";
 
 export type DebugProfile = "general" | "baseline" | "restricted" | "netadmin" | "sysadmin";
 
@@ -30,10 +30,9 @@ export class DebugSettingsStore extends Common.Store.ExtensionStore<DebugSetting
       configName: "freelens-pod-debug-settings",
       defaults: DEFAULTS,
     });
-    makeObservable(this);
   }
 
-  fromStore(data: DebugSettingsModel): void {
+  fromStore(data: Partial<DebugSettingsModel>): void {
     this.debugImage = data.debugImage ?? DEFAULTS.debugImage;
     this.shellProfile = data.shellProfile ?? DEFAULTS.shellProfile;
     this.profile = data.profile ?? DEFAULTS.profile;

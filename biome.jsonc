@@ -21,7 +21,7 @@
     }
   },
   "files": {
-    "includes": ["**", "!**/out/**", "!**/node_modules/**"]
+    "includes": ["**", "!**/dist/**", "!**/node_modules/**"]
   },
   "vcs": {
     "clientKind": "git",
