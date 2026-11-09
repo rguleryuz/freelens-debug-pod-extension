@@ -13,7 +13,7 @@
 .mcp.json
 
 /node_modules/
-/out/
+/dist/
 /freelens-example-extension/
 /.omc/
 /.fastembed_cache/

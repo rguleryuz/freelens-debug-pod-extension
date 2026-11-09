@@ -1,0 +1,12 @@
+allowBuilds:
+  electron: false
+  esbuild: false
+
+engineStrict: true
+
+minimumReleaseAgeExclude:
+  - '@freelensapp/extensions'
+
+# Fail the install when a library shared with the host is outside the peer
+# range of @freelensapp/extensions.
+strictPeerDependencies: true

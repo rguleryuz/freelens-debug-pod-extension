@@ -1,6 +1,6 @@
 import { Renderer } from "@freelensapp/extensions";
 import { observer } from "mobx-react";
-import { DebugSettingsStore, DEBUG_PROFILES, type DebugProfile } from "../../common/store";
+import { DEBUG_PROFILES, type DebugProfile, DebugSettingsStore } from "../../common/store";
 
 const {
   Component: { Input, Select },
@@ -10,10 +10,11 @@ const store = DebugSettingsStore.getInstanceOrCreate<DebugSettingsStore>();
 
 export const DebugSettingsPreferenceInput = observer(() => {
   return (
-    <div className="flex column gaps">
-      <div className="flex column">
-        <label>Debug Image</label>
+    <div className="pod-debug-settings">
+      <div className="pod-debug-field">
+        <label htmlFor="pod-debug-image">Debug Image</label>
         <Input
+          id="pod-debug-image"
           value={store.debugImage}
           onChange={(value) => {
             store.debugImage = value;
@@ -21,9 +22,10 @@ export const DebugSettingsPreferenceInput = observer(() => {
           placeholder="nicolaka/netshoot:latest"
         />
       </div>
-      <div className="flex column">
-        <label>Shell Profile</label>
+      <div className="pod-debug-field">
+        <label htmlFor="pod-debug-shell">Shell Profile</label>
         <Input
+          id="pod-debug-shell"
           value={store.shellProfile}
           onChange={(value) => {
             store.shellProfile = value;
@@ -31,9 +33,10 @@ export const DebugSettingsPreferenceInput = observer(() => {
           placeholder="/bin/bash"
         />
       </div>
-      <div className="flex column">
-        <label>Debug Profile</label>
+      <div className="pod-debug-field">
+        <label htmlFor="pod-debug-profile">Debug Profile</label>
         <Select
+          inputId="pod-debug-profile"
           value={store.profile}
           options={DEBUG_PROFILES.map((p) => ({ value: p, label: p }))}
           onChange={(option) => {
@@ -41,9 +44,10 @@ export const DebugSettingsPreferenceInput = observer(() => {
           }}
         />
       </div>
-      <div className="flex column">
-        <label>Extra kubectl debug flags</label>
+      <div className="pod-debug-field">
+        <label htmlFor="pod-debug-extra-args">Extra kubectl debug flags</label>
         <Input
+          id="pod-debug-extra-args"
           value={store.extraArgs}
           onChange={(value) => {
             store.extraArgs = value;

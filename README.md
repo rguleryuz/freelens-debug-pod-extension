@@ -13,8 +13,8 @@ A Freelens extension that adds a **Debug Pod (kubectl)** action to the pod conte
 
 ## Requirements
 
-- Freelens >= 1.8.0
-- Node.js >= 22.0.0
+- Freelens >= 2.0.0 (use v0.2.x of this extension for Freelens 1.x)
+- Node.js >= 24.0.0 (to build)
 - `kubectl` available in PATH
 
 ## Install
@@ -23,11 +23,14 @@ Build from source:
 
 ```sh
 pnpm install
-pnpm build
-pnpm pack
+pnpm pack:dev
 ```
 
 Then in Freelens, go to Extensions (Cmd+Shift+E) and provide the path to the `.tgz` tarball.
+
+## Development
+
+Install the checkout's directory from the Extensions page, then run `pnpm dev` to rebuild on change.
 
 ## Configuration
 

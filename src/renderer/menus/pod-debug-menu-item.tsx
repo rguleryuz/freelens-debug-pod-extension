@@ -1,6 +1,4 @@
 import { Common, Renderer } from "@freelensapp/extensions";
-import os from "os";
-import { v4 as uuidv4 } from "uuid";
 import { DebugSettingsStore } from "../../common/store";
 
 const {
@@ -16,17 +14,7 @@ const DEFAULT_DEBUG_IMAGE = "nicolaka/netshoot:latest";
 const DEFAULT_SHELL_PROFILE = "/bin/bash";
 
 function tokenizeArgs(raw: string): string[] {
-  if (!raw.trim()) return [];
-
-  const tokens: string[] = [];
-  const regex = /"([^"]*)"|'([^']*)'|(\S+)/g;
-  let match: RegExpExecArray | null;
-
-  while ((match = regex.exec(raw)) !== null) {
-    tokens.push(match[1] ?? match[2] ?? match[3]);
-  }
-
-  return tokens;
+  return Array.from(raw.matchAll(/"([^"]*)"|'([^']*)'|(\S+)/g), (m) => m[1] ?? m[2] ?? m[3]);
 }
 
 function buildDebugCommand(pod: Pod, containerName: string, settings: DebugSettingsStore): string[] {
@@ -37,7 +25,18 @@ function buildDebugCommand(pod: Pod, containerName: string, settings: DebugSetti
 
   const profile = settings.profile?.trim() || "general";
 
-  const parts = [kubectlPath, "debug", "-it", pod.getName(), "-n", pod.getNs(), "--image", debugImage, "--profile", profile];
+  const parts = [
+    kubectlPath,
+    "debug",
+    "-it",
+    pod.getName(),
+    "-n",
+    pod.getNs(),
+    "--image",
+    debugImage,
+    "--profile",
+    profile,
+  ];
 
   if (extraArgs.length > 0) {
     parts.push(...extraArgs);
@@ -49,14 +48,14 @@ function buildDebugCommand(pod: Pod, containerName: string, settings: DebugSetti
 
   parts.push("--", shellProfile);
 
-  if (os.platform() !== "win32") {
+  if (!App.isWindows) {
     parts.unshift("exec");
   }
 
   return parts;
 }
 
-export interface PodDebugMenuItemProps extends Renderer.Component.KubeObjectMenuProps<Pod> {}
+export type PodDebugMenuItemProps = Common.Types.KubeObjectMenuItemProps<Pod>;
 
 export function PodDebugMenuItem(props: PodDebugMenuItemProps) {
   const { object: pod, toolbar } = props;
@@ -72,7 +71,7 @@ export function PodDebugMenuItem(props: PodDebugMenuItemProps) {
 
   const runDebug = (containerName: string) => {
     const parts = buildDebugCommand(pod, containerName, settings);
-    const tabId = uuidv4();
+    const tabId = globalThis.crypto.randomUUID();
 
     createTerminalTab({
       title: `Debug: ${pod.getName()} (namespace: ${pod.getNs()})`,
@@ -102,7 +101,11 @@ export function PodDebugMenuItem(props: PodDebugMenuItemProps) {
               const brick = status ? <StatusBrick /> : null;
 
               return (
-                <MenuItem key={name} onClick={Util.prevDefault(() => runDebug(name))} className="flex align-center">
+                <MenuItem
+                  key={name}
+                  onClick={Util.prevDefault(() => runDebug(name))}
+                  className="pod-debug-container-item"
+                >
                   {brick}
                   <span>{name}</span>
                 </MenuItem>
